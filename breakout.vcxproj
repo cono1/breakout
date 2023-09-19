@@ -178,6 +178,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Paddle\paddle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Paddle\paddle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
