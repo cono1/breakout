@@ -177,10 +177,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ball\ball.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Paddle\paddle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball\ball.h" />
     <ClInclude Include="Paddle\paddle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
