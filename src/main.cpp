@@ -2,9 +2,11 @@
 
 #include "Paddle/paddle.h"
 #include "Ball/ball.h"
+#include "Bricks/bricks.h"
 
 using namespace paddle;
 using namespace ball;
+using namespace bricks;
 
 void checkBallLimits(Ball& ball, const int windowWidth, const int windowHeight, Paddle paddle);
 
@@ -17,9 +19,11 @@ int main()
 
 	Paddle paddle;
 	Ball ball;
+	Brick brick[quantX];
 
 	initPaddle(paddle, width, height);
 	initBall(ball, paddle.x, paddle.y);
+	initBrick(brick);
 
 	while (!slShouldClose() && !slGetKey(SL_KEY_ESCAPE))
 	{
@@ -32,6 +36,7 @@ int main()
 
 		drawPaddle(paddle);
 		drawBall(ball);
+		drawBrick(brick);
 
 		slRender();
 	}

@@ -15,24 +15,33 @@
     <Filter Include="Ball">
       <UniqueIdentifier>{3c875f69-2ae3-43e0-817d-d9f1b769232a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Bricks">
+      <UniqueIdentifier>{3138d70e-58a8-4da7-944c-f6fa04349056}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Archivos de recursos</Filter>
     </ClCompile>
-    <ClCompile Include="Paddle\paddle.cpp">
+    <ClCompile Include="src\Ball\ball.cpp">
+      <Filter>Ball</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Paddle\paddle.cpp">
       <Filter>Paddle</Filter>
     </ClCompile>
-    <ClCompile Include="Ball\ball.cpp">
-      <Filter>Ball</Filter>
+    <ClCompile Include="src\Bricks\bricks.cpp">
+      <Filter>Bricks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Paddle\paddle.h">
+    <ClInclude Include="src\Ball\ball.h">
+      <Filter>Ball</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Paddle\paddle.h">
       <Filter>Paddle</Filter>
     </ClInclude>
-    <ClInclude Include="Ball\ball.h">
-      <Filter>Ball</Filter>
+    <ClInclude Include="src\Bricks\bricks.h">
+      <Filter>Bricks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
