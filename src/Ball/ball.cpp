@@ -1,9 +1,10 @@
 #include "ball.h"
 
-#include "sl.h"
 #include <time.h>
-#include <math.h>
+#include <cmath>
 #include <cstdlib>
+
+#include "sl.h"
 
 namespace ball
 {

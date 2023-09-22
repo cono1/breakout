@@ -19,11 +19,6 @@ void initBrick(Brick brick[quantX])
 			brick[i].y = i * brick[i].height + firstBrickYPosition;
 		}
 	}
-
-	//(Vector2) {
-	//	j* brickSize.x + brickSize.x / 2, 
-	//		i* brickSize.y + initialDownPosition
-	//};
 }
 
 void drawBrick(Brick brick[quantX])
