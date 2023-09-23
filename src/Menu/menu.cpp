@@ -1,31 +1,34 @@
 #include "menu.h"
 
-#include <string>
 #include <iostream>
 
 #include "sl.h"
 
-bool collide = false;
 namespace menu
 {
-const int quantMenuRects = 3;
+const int quantMenuRects = 4;
 static MenuRect menuRect[quantMenuRects];
 
 void writeOnMenuSquare(std::string word, int pos, const int screenWidth, const int fontSize);
 bool checkMenuInput(CurrentScreen currentSquare);
-bool checkCollision(int mouseX, int mouseY, MenuRect menuRect[], CurrentScreen currentSquare);
 
 void initMenu(const int screenWidth)
 {
 	int spaceBetweenRects = 20;
-	int firstRectYPosition = 70;
-	for (int i = 0; i <= quantMenuRects; i++)
+	int firstRectYPosition = 120;
+
+	for (int i = 0; i < quantMenuRects; i++)
 	{
 		menuRect[i].width = 360;
 		menuRect[i].height = 80;
 		menuRect[i].x = (screenWidth - menuRect[i].x) / 2;
 		menuRect[i].y = firstRectYPosition + (menuRect[i].height + spaceBetweenRects) * i;
 	}
+
+	//pauseRect.x = 40;
+	//pauseRect.y = 745;
+	//pauseRect.width = 35;
+	//pauseRect.height = 35;
 }
 
 void updateMenu(CurrentScreen& currentScreen)
@@ -49,12 +52,15 @@ void updateMenu(CurrentScreen& currentScreen)
 		currentScreen = EXIT;
 }
 
-void printMenu(const int screenWidth, const int screenHeight, const int fontSize)
+void printMenu(const int screenWidth, const int screenHeight, const int fontSize, std::string title)
 {
 	slSetForeColor(1, 0.5, 1, 1);
-	slText((screenWidth - slGetTextWidth("BREAKOUT")) / 2, screenHeight - slGetTextHeight("BREAKOUT"), "BREAKOUT");
+	slSetFontSize(fontSize + 100);
+	slText((screenWidth - slGetTextWidth(title.c_str())) / 2, screenHeight - slGetTextHeight(title.c_str()) - fontSize, title.c_str());
 
-	for (int i = 0; i <= quantMenuRects; i++)
+	slSetFontSize(fontSize);
+
+	for (int i = 0; i < quantMenuRects; i++)
 	{
 		slSetForeColor(1, 1, 1, 1);
 		slRectangleFill(static_cast<int>(menuRect[i].x), static_cast<int>(menuRect[i].y), static_cast<int>(menuRect[i].width), static_cast<int>(menuRect[i].height));
@@ -93,32 +99,49 @@ void writeOnMenuSquare(std::string word, int pos, const int screenWidth, const i
 
 bool checkMenuInput(CurrentScreen currentSquare)
 {
-	int mousePosX = slGetMouseX();
-	int mousePosY = slGetMouseY();
-
-	if (checkCollision(mousePosX, mousePosY, menuRect, currentSquare) && slGetMouseButton(SL_MOUSE_BUTTON_LEFT))
+	float initWidth = 360;
+	float maxWidth = 380;
+	if (checkCollision(menuRect[currentSquare], initWidth, maxWidth) && slGetMouseButton(SL_MOUSE_BUTTON_LEFT))
 	{
-		return true;	
-	}
-	else
-	{
-		return false;
-	}	
-}
-
-bool checkCollision(int mouseX, int mouseY, MenuRect menuRect[], CurrentScreen currentSquare)
-{
-	if (mouseX >= menuRect[currentSquare].x - menuRect[currentSquare].width / 2 &&
-		mouseX <= menuRect[currentSquare].x + menuRect[currentSquare].width / 2 &&
-		mouseY >= menuRect[currentSquare].y - menuRect[currentSquare].height / 2 &&
-		mouseY <= menuRect[currentSquare].y + menuRect[currentSquare].height / 2) {
-		menuRect[currentSquare].width += 5;
-		std::cout << "colision";
 		return true;
 	}
 	else
 	{
 		return false;
 	}
+	
+}
+
+bool checkCollision(MenuRect& menuRect, float initWidth, float maxWidth)
+{
+	int mouseX = slGetMouseX();
+	int mouseY = slGetMouseY();
+
+	if (mouseX >= menuRect.x - menuRect.width / 2 &&
+		mouseX <= menuRect.x + menuRect.width / 2 &&
+		mouseY >= menuRect.y - menuRect.height / 2 &&
+		mouseY <= menuRect.y + menuRect.height / 2) 
+	{
+		if(menuRect.width < maxWidth)
+		{
+			menuRect.width += 5;
+		}
+
+		return true;
+	}
+	else
+	{
+		menuRect.width = initWidth;
+		return false;
+	}
+}
+
+
+void printPauseButton(MenuRect pauseRect)
+{
+	slSetFontSize(25);
+	slRectangleFill(pauseRect.x, pauseRect.y, pauseRect.width, pauseRect.height);
+	slSetForeColor(0, 0, 0, 1);
+	slText(pauseRect.x - 10, pauseRect.y - 10, "||");
 }
 }

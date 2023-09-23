@@ -1,5 +1,7 @@
 #include "sl.h"
 
+#include <iostream>
+
 #include "Menu/menu.h"
 #include "Paddle/paddle.h"
 #include "Ball/ball.h"
@@ -26,29 +28,73 @@ int main()
 	Paddle paddle;
 	Ball ball;
 	Brick brick[quantX];
+	MenuRect pauseRect;
+
+	pauseRect.x = 40;
+	pauseRect.y = 745;
+	pauseRect.width = 35;
+	pauseRect.height = 35;
+	float initWidth = pauseRect.width;
+	float maxWidth = pauseRect.width + 10;
 
 	initMenu(width);
 	initPaddle(paddle, width, height);
 	initBall(ball, paddle.x, paddle.y);
 	initBrick(brick);
+
 	CurrentScreen currentScreen = MENU;
 
 	while (!slShouldClose() && !slGetKey(SL_KEY_ESCAPE))
 	{
-		updateMenu(currentScreen);
-		/*updatePaddle(paddle, width);
-		updateBall(ball);
-		checkBallLimits(ball, width, height, paddle);*/
+		switch (currentScreen)
+		{
+		case menu::EXIT:
+			return 0;
+			break;
+		case menu::CREDITS:
+			break;
+		case menu::RULES:
+			break;
+		case menu::PLAY:
+			updatePaddle(paddle, width);
+			updateBall(ball);
+			checkBallLimits(ball, width, height, paddle);
+			if (checkCollision(pauseRect, initWidth, maxWidth) && slGetMouseButton(SL_MOUSE_BUTTON_LEFT))
+			{
+				std::cout << "en pausa";
+				currentScreen = PAUSE;
+			}
+			slSetBackColor(0.5, 0.75, 1.0);
+			slSetForeColor(1, 1, 1, 1);
 
-		slSetBackColor(0.5, 0.75, 1.0);
-		slSetForeColor(1, 1, 1, 1);
+			drawPaddle(paddle);
+			drawBall(ball);
+			drawBrick(brick);
+			printPauseButton(pauseRect);
 
-		printMenu(width, height, fontSize);
-		/*drawPaddle(paddle);
-		drawBall(ball);
-		drawBrick(brick);*/
+			slRender();
+			break;
+		case menu::MENU:
+			slSetBackColor(0.5, 0.75, 1.0);
+			slSetForeColor(1, 1, 1, 1);
 
-		slRender();
+			updateMenu(currentScreen);
+			printMenu(width, height, fontSize, "BREAKOUT");
+
+			slRender();
+			break;
+		case menu::PAUSE:
+			slSetBackColor(0.5, 0.75, 1.0);
+			slSetForeColor(1, 1, 1, 1);
+
+			updateMenu(currentScreen);
+			printMenu(width, height, fontSize, "PAUSED");
+
+			slRender();
+			break;
+		default:
+			break;
+		}
 	}
 
 	slClose();
