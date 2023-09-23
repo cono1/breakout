@@ -182,12 +182,14 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Menu\menu.cpp" />
     <ClCompile Include="src\Paddle\paddle.cpp" />
+    <ClCompile Include="src\Player\player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Ball\ball.h" />
     <ClInclude Include="src\Bricks\bricks.h" />
     <ClInclude Include="src\Menu\menu.h" />
     <ClInclude Include="src\Paddle\paddle.h" />
+    <ClInclude Include="src\Player\player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -21,6 +21,9 @@
     <Filter Include="Archivos de recursos\Menu">
       <UniqueIdentifier>{aad595d2-1b56-471c-94fa-5c8eb4af33c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{0bbb3135-20f7-4652-84dc-23341acff2d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -38,6 +41,9 @@
     <ClCompile Include="src\Menu\menu.cpp">
       <Filter>Archivos de recursos\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="src\Player\player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Ball\ball.h">
@@ -51,6 +57,9 @@
     </ClInclude>
     <ClInclude Include="src\Menu\menu.h">
       <Filter>Archivos de recursos\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Player\player.h">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
