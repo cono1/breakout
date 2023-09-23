@@ -27,7 +27,7 @@ int main()
 
 	Paddle paddle;
 	Ball ball;
-	Brick brick[quantX];
+	Brick brick[quantY][quantX];
 	MenuRect pauseRect;
 
 	pauseRect.x = 40;
@@ -39,7 +39,7 @@ int main()
 
 	initMenu(width);
 	initPaddle(paddle, width, height);
-	initBall(ball, paddle.x, paddle.y);
+	//initBall(ball, paddle.x, paddle.y);
 	initBrick(brick);
 
 	CurrentScreen currentScreen = MENU;
@@ -57,8 +57,8 @@ int main()
 			break;
 		case menu::PLAY:
 			updatePaddle(paddle, width);
-			updateBall(ball);
-			checkBallLimits(ball, width, height, paddle);
+			//updateBall(ball);
+			//checkBallLimits(ball, width, height, paddle);
 			if (checkCollision(pauseRect, initWidth, maxWidth) && slGetMouseButton(SL_MOUSE_BUTTON_LEFT))
 			{
 				std::cout << "en pausa";
@@ -68,7 +68,7 @@ int main()
 			slSetForeColor(1, 1, 1, 1);
 
 			drawPaddle(paddle);
-			drawBall(ball);
+			//drawBall(ball);
 			drawBrick(brick);
 			printPauseButton(pauseRect);
 

@@ -2,8 +2,8 @@
 
 namespace bricks
 {
-const int quantX = 5;
-const int quantY = 10;
+const int quantX = 14;
+const int quantY = 5;
 
 struct Brick
 {
@@ -14,7 +14,7 @@ float width;
 float height;
 };
 
-void initBrick(Brick brick[quantX]);
+void initBrick(Brick brick[quantY][quantX]);
 //void updateBrick(Brick brick[sizeX]);
-void drawBrick(Brick brick[quantX]);
+void drawBrick(Brick brick[quantY][quantX]);
 }
