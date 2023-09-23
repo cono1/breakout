@@ -141,7 +141,7 @@ void printPauseButton(MenuRect pauseRect)
 {
 	slSetFontSize(25);
 	slRectangleFill(pauseRect.x, pauseRect.y, pauseRect.width, pauseRect.height);
-	slSetForeColor(0, 0, 0, 1);
+	slSetForeColor(1, 0.5, 1, 1);
 	slText(pauseRect.x - 10, pauseRect.y - 10, "||");
 }
 }

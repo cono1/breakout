@@ -11,7 +11,7 @@ void initPaddle(Paddle& paddle, float posX, float posY)
 	paddle.width = 332;
 	paddle.height = 70;
 	paddle.speed = 450;
-	paddle.texture = slLoadTexture("res/bricks.png");
+	paddle.texture = slLoadTexture("res/wood.jpg"); //https://www.vecteezy.com/vector-art/3448235-light-brown-cartoon-wood-texture-pattern-wallpaper-background
 }
 
 void updatePaddle(Paddle& paddle, float windowWidth)

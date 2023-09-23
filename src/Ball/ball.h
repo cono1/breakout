@@ -17,4 +17,5 @@ struct Ball
 void initBall(Ball& ball, float paddleX, float paddleY);
 void updateBall(Ball& ball);
 void drawBall(Ball ball);
+void restartBall(Ball& ball, float paddleX, float paddleY);
 }
