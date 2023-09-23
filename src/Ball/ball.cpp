@@ -13,8 +13,8 @@ void initBall(Ball& ball, float paddleX, float paddleY)
 	srand(time(NULL));
 	ball.dirX = rand() % 300 - 150;
 	ball.dirY = 100.f;
-	ball.width = 50.f;
-	ball.height = 50.f;
+	ball.width = 30.f;
+	ball.height = 30.f;
 	ball.x = paddleX;
 	ball.y = paddleY + ball.height + offset;
 	ball.speed = 3.f;

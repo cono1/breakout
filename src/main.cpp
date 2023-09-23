@@ -15,6 +15,7 @@ extern int offset;
 
 void checkBallLimits(Ball& ball, const int windowWidth, const int windowHeight, Paddle paddle);
 bool checkBallToPaddCollision(Ball& ball, Paddle paddle);
+bool checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX], int posX, int posY);
 
 int main()
 {
@@ -61,11 +62,24 @@ while (!slShouldClose() && !slGetKey(SL_KEY_ESCAPE))
 		updatePaddle(paddle, width);
 		updateBall(ball);
 		checkBallLimits(ball, width, height, paddle);
+
 		if (checkCollision(pauseRect, initWidth, maxWidth) && slGetMouseButton(SL_MOUSE_BUTTON_LEFT))
 		{
 			std::cout << "en pausa";
 			currentScreen = PAUSE;
 		}
+
+		for (int i = 0; i < quantY; i++)
+		{
+			for (int j = 0; j < quantX; j++)
+			{
+				if (checkBallToBrickCollision(ball, brick, i, j))
+				{
+					deactiveBrick(brick, i, j);
+				}
+			}
+		}
+
 		slSetBackColor(0.5, 0.75, 1.0);
 		slSetForeColor(1, 1, 1, 1);
 
@@ -142,6 +156,21 @@ bool checkBallToPaddCollision(Ball& ball, Paddle paddle)
 		paddle.x - (paddle.width / 2) <= ball.x + ball.width &&
 		paddle.y + (paddle.height / 2) >= ball.y &&
 		paddle.y - (paddle.width / 2) <= ball.y + ball.height)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX], int posX, int posY)
+{
+	if (brick[posX][posY].x + (brick[posX][posY].width / 2) >= ball.x &&
+		brick[posX][posY].x - (brick[posX][posY].width / 2) <= ball.x + ball.width &&
+		brick[posX][posY].y + (brick[posX][posY].height / 2) >= ball.y &&
+		brick[posX][posY].y - (brick[posX][posY].width / 2) <= ball.y + ball.height)
 	{
 		return true;
 	}

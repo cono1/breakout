@@ -24,6 +24,14 @@ void initBrick(Brick brick[quantY][quantX])
 	}
 }
 
+void deactiveBrick(Brick brick[quantY][quantX], int posX, int posY)
+{
+	if (brick[posX][posY].isActive)
+	{
+		brick[posX][posY].isActive = false;
+	}
+}
+
 void drawBrick(Brick brick[quantY][quantX])
 {
 	slSetForeColor(1, 1, 1, 1);
@@ -31,6 +39,7 @@ void drawBrick(Brick brick[quantY][quantX])
 	{
 		for (int j = 0; j < quantX; j++)
 		{
+			if(brick[i][j].isActive)
 			slRectangleFill(brick[i][j].x, brick[i][j].y, brick[i][j].width, brick[i][j].height);
 		}
 	}
