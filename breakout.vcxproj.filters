@@ -24,6 +24,9 @@
     <Filter Include="Player">
       <UniqueIdentifier>{0bbb3135-20f7-4652-84dc-23341acff2d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{71cc2b3c-8fc0-4364-96d4-28e03cf467a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -44,6 +47,9 @@
     <ClCompile Include="src\Player\player.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Ball\ball.h">
@@ -60,6 +66,9 @@
     </ClInclude>
     <ClInclude Include="src\Player\player.h">
       <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\game.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

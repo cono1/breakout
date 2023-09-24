@@ -179,6 +179,7 @@
   <ItemGroup>
     <ClCompile Include="src\Ball\ball.cpp" />
     <ClCompile Include="src\Bricks\bricks.cpp" />
+    <ClCompile Include="src\Game\game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Menu\menu.cpp" />
     <ClCompile Include="src\Paddle\paddle.cpp" />
@@ -187,6 +188,7 @@
   <ItemGroup>
     <ClInclude Include="src\Ball\ball.h" />
     <ClInclude Include="src\Bricks\bricks.h" />
+    <ClInclude Include="src\Game\game.h" />
     <ClInclude Include="src\Menu\menu.h" />
     <ClInclude Include="src\Paddle\paddle.h" />
     <ClInclude Include="src\Player\player.h" />

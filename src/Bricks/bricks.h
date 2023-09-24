@@ -15,6 +15,6 @@ float height;
 };
 
 void initBrick(Brick brick[quantY][quantX]);
-void deactiveBrick(Brick brick[quantY][quantX], int posX, int posY);
+void deactiveBrick(Brick brick[quantY][quantX], int posX, int posY, int& activeBricksLeft);
 void drawBrick(Brick brick[quantY][quantX]);
 }

@@ -24,11 +24,12 @@ void initBrick(Brick brick[quantY][quantX])
 	}
 }
 
-void deactiveBrick(Brick brick[quantY][quantX], int posX, int posY)
+void deactiveBrick(Brick brick[quantY][quantX], int posX, int posY, int& activeBricksLeft)
 {
 	if (brick[posX][posY].isActive)
 	{
 		brick[posX][posY].isActive = false;
+		activeBricksLeft--;
 	}
 }
 
