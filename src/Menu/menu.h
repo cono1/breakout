@@ -14,11 +14,13 @@ struct MenuRect
 	int y;
 	float width;
 	float height;
+	float initWidth;
+	float maxWidth;
 };
 
 void initMenu(const int screenWidth);
 void updateMenu(CurrentScreen& currentScreen);
 void printMenu(const int screenWidth, const int screenHeight, const int fontSize, std::string title);
-bool checkCollision(MenuRect& menuRect, float initWidth, float maxWidth);
-void printPauseButton(MenuRect pauseRect);
+void printPauseButton();
+bool isPausePressed();
 }

@@ -8,9 +8,11 @@ namespace menu
 {
 const int quantMenuRects = 4;
 static MenuRect menuRect[quantMenuRects];
+static MenuRect pauseRect;
 
 void writeOnMenuSquare(std::string word, int pos, const int screenWidth, const int fontSize);
 bool checkMenuInput(CurrentScreen currentSquare);
+bool checkCollision(MenuRect& menuRect, float initWidth, float maxWidth);
 
 void initMenu(const int screenWidth)
 {
@@ -23,12 +25,16 @@ void initMenu(const int screenWidth)
 		menuRect[i].height = 80;
 		menuRect[i].x = (screenWidth - menuRect[i].x) / 2;
 		menuRect[i].y = firstRectYPosition + (menuRect[i].height + spaceBetweenRects) * i;
+		menuRect[i].initWidth = menuRect[i].width;
+		menuRect[i].maxWidth = menuRect[i].width + 20;
 	}
 
-	//pauseRect.x = 40;
-	//pauseRect.y = 745;
-	//pauseRect.width = 35;
-	//pauseRect.height = 35;
+	pauseRect.x = 40;
+	pauseRect.y = 745;
+	pauseRect.width = 35;
+	pauseRect.height = 35;
+	pauseRect.initWidth = pauseRect.width;
+	pauseRect.maxWidth = pauseRect.width + 10;
 }
 
 void updateMenu(CurrentScreen& currentScreen)
@@ -99,17 +105,7 @@ void writeOnMenuSquare(std::string word, int pos, const int screenWidth, const i
 
 bool checkMenuInput(CurrentScreen currentSquare)
 {
-	float initWidth = 360;
-	float maxWidth = 380;
-	if (checkCollision(menuRect[currentSquare], initWidth, maxWidth) && slGetMouseButton(SL_MOUSE_BUTTON_LEFT))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-	
+	return (checkCollision(menuRect[currentSquare], menuRect[currentSquare].initWidth, menuRect[currentSquare].maxWidth) && slGetMouseButton(SL_MOUSE_BUTTON_LEFT));
 }
 
 bool checkCollision(MenuRect& menuRect, float initWidth, float maxWidth)
@@ -137,11 +133,17 @@ bool checkCollision(MenuRect& menuRect, float initWidth, float maxWidth)
 }
 
 
-void printPauseButton(MenuRect pauseRect)
+void printPauseButton()
 {
+	slSetForeColor(1, 1, 1, 1);
 	slSetFontSize(25);
 	slRectangleFill(pauseRect.x, pauseRect.y, pauseRect.width, pauseRect.height);
 	slSetForeColor(1, 0.5, 1, 1);
 	slText(pauseRect.x - 10, pauseRect.y - 10, "||");
+}
+
+bool isPausePressed()
+{
+	return checkCollision(pauseRect, pauseRect.initWidth, pauseRect.maxWidth);
 }
 }

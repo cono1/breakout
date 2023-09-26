@@ -14,194 +14,176 @@ extern int offset;
 
 namespace game
 {
-	using namespace menu;
-	using namespace paddle;
-	using namespace ball;
-	using namespace bricks;
-	using namespace player;
+using namespace menu;
+using namespace paddle;
+using namespace ball;
+using namespace bricks;
+using namespace player;
 
-	void checkBallLimits(Ball& ball, const int windowWidth, const int windowHeight, Paddle paddle, Player& player);
-	bool checkBallToPaddCollision(Ball& ball, Paddle paddle);
-	bool checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX], int posX, int posY);
-	void printLives(Player player, const int screenWidth, const int screenHeight, const int fontSize);
+static const int width = 1024;
+static const int height = 768;
+static const int fontSize = 50;
+static int activeBricksLeft = quantX * quantY;
+static bool shouldExit = false;
 
-	static Paddle paddle;
-	static Ball ball;
-	static Brick brick[quantY][quantX];
-	static MenuRect pauseRect;
-	static Player player;
+void gameLoop();
+void initializeGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Player& player);
+void updateGameLogic(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Player& player, CurrentScreen& currentScreen);
+void drawGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Player& player, CurrentScreen& currentScreen);
+bool checkBallToPaddCollision(Ball& ball, Paddle paddle);
+void checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX]);
+void checkBallLimits(Ball& ball, const int windowWidth, const int windowHeight, Paddle paddle, Player& player);
+void printLives(Player player, const int screenWidth, const int screenHeight, const int fontSize);
 
-	void gameLoop()
-	{
-		const int width = 1024;
-		const int height = 768;
-		const int fontSize = 50;
+void gameLoop()
+{
+    Paddle paddle;
+    Ball ball;
+    Brick brick[quantY][quantX];
+    Player player;
 
-		slWindow(width, height, "BREAKOUT", false);
+    slWindow(width, height, "BREAKOUT", false);
 
-		int font = slLoadFont("res/PermanentMarker-Regular.ttf");
-		slSetFont(font, fontSize);
+    int font = slLoadFont("res/PermanentMarker-Regular.ttf");
+    slSetFont(font, fontSize);
+    CurrentScreen currentScreen = MENU;
 
-		CurrentScreen currentScreen = MENU;
-
-		initMenu(width);
-		initPaddle(paddle, width, height);
-		initBall(ball, paddle.x, paddle.y);
-		initBrick(brick);
-		initPlayer(player);
-
-		pauseRect.x = 40;
-		pauseRect.y = 745;
-		pauseRect.width = 35;
-		pauseRect.height = 35;
-		float initWidth = pauseRect.width;
-		float maxWidth = pauseRect.width + 10;
-
-		int activeBricksLeft = quantX * quantY;
-
-		while (!slShouldClose() && !slGetKey(SL_KEY_ESCAPE))
-		{
-			switch (currentScreen)
-			{
-			case menu::EXIT:
-				return;
-				break;
-			case menu::CREDITS:
-				break;
-			case menu::RULES:
-				break;
-			case menu::PLAY:
-				updatePaddle(paddle, width);
-				updateBall(ball);
-				checkBallLimits(ball, width, height, paddle, player);
-
-				if (checkCollision(pauseRect, initWidth, maxWidth) && slGetMouseButton(SL_MOUSE_BUTTON_LEFT))
-				{
-					std::cout << "en pausa";
-					currentScreen = PAUSE;
-				}
-
-				for (int i = 0; i < quantY; i++)
-				{
-					for (int j = 0; j < quantX; j++)
-					{
-						if (checkBallToBrickCollision(ball, brick, i, j))
-						{
-							deactiveBrick(brick, i, j, activeBricksLeft);
-						}
-					}
-				}
-
-				checkPayerStatus(player, activeBricksLeft);
+    initMenu(width);
+    initializeGameObjects(paddle, ball, brick, player);
 
 
-				slSetBackColor(0.5, 0.75, 1.0);
-				slSetForeColor(1, 1, 1, 1);
+    while (!shouldExit)
+    {
+        updateGameLogic(paddle, ball, brick, player, currentScreen);
+        drawGameObjects(paddle, ball, brick, player, currentScreen);
 
-				drawPaddle(paddle);
-				drawBrick(brick);
-				drawBall(ball);
-				printPauseButton(pauseRect);
-				printLives(player, width, height, fontSize);
+        slRender();
+    }
 
-				slRender();
-				break;
-			case menu::MENU:
-				slSetBackColor(0.5, 0.75, 1.0);
-				slSetForeColor(1, 1, 1, 1);
+    slClose();
+}
 
-				updateMenu(currentScreen);
-				printMenu(width, height, fontSize, "BREAKOUT");
+void initializeGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Player& player)
+{
+    initPaddle(paddle, width, height);
+    initBall(ball, paddle.x, paddle.y);
+    initBrick(brick);
+    initPlayer(player);
+}
 
-				slRender();
-				break;
-			case menu::PAUSE:
-				slSetBackColor(0.5, 0.75, 1.0);
-				slSetForeColor(1, 0.5, 1, 1);
+void updateGameLogic(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Player& player, CurrentScreen& currentScreen)
+{
+    updatePaddle(paddle, width);
+    updateBall(ball);
+    checkBallLimits(ball, width, height, paddle, player);
+    checkBallToBrickCollision(ball, brick);
+    checkPayerStatus(player, activeBricksLeft);
 
-				updateMenu(currentScreen);
-				printMenu(width, height, fontSize, "PAUSED");
+    if (isPausePressed() && slGetMouseButton(SL_MOUSE_BUTTON_LEFT))
+    {
+        currentScreen = PAUSE;
+    }
 
-				slRender();
-				break;
-			default:
-				break;
-			}
-		}
+    if (slShouldClose())
+    {
+        shouldExit = true;
+    }
+}
 
-		slClose();
-	}
+void drawGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Player& player, CurrentScreen& currentScreen)
+{
+    slSetBackColor(0.5, 0.75, 1.0);
+    slSetForeColor(1, 1, 1, 1);
 
+    switch (currentScreen)
+    {
+    case menu::EXIT:
+        shouldExit = true;
+        break;
+    case menu::PLAY:
+        drawPaddle(paddle);
+        drawBrick(brick);
+        drawBall(ball);
+        printPauseButton();
+        printLives(player, width, height, fontSize);
+        break;
+    case menu::MENU:
+        updateMenu(currentScreen);
+        printMenu(width, height, fontSize, "BREAKOUT");
+        break;
+    case menu::PAUSE:
+        updateMenu(currentScreen);
+        printMenu(width, height, fontSize, "PAUSED");
+        break;
+    default:
+        break;
+    }
+}
 
-	void checkBallLimits(Ball& ball, const int windowWidth, const int windowHeight, Paddle paddle, Player& player)
-	{
-		if (checkBallToPaddCollision(ball, paddle))
-		{
-			ball.y = paddle.y + ball.height + offset;
-			ball.dirX *= -1.f;
-			ball.dirY *= -1.f;
-		}
+void checkBallLimits(Ball& ball, const int windowWidth, const int windowHeight, Paddle paddle, Player& player)
+{
+    if (checkBallToPaddCollision(ball, paddle))
+    {
+        ball.y = paddle.y + ball.height + offset;
+        ball.dirX *= -1.f;
+        ball.dirY *= -1.f;
+    }
 
-		if (ball.x < 0 || ball.x > windowWidth)
-		{
-			if (ball.x < 0)
-				ball.x += ball.width;
+    if (ball.x < 0 || ball.x > windowWidth)
+    {
+        if (ball.x < 0)
+            ball.x += ball.width;
 
-			if (ball.x > ball.x > windowWidth)
-				ball.x -= ball.width;
+        if (ball.x > ball.x > windowWidth)
+            ball.x -= ball.width;
 
-			ball.dirX *= -1.f;
-		}
+        ball.dirX *= -1.f;
+    }
 
-		if (ball.y >= windowHeight)
-		{
-			ball.y -= ball.width;
-			ball.dirY *= -1.f;
-		}
+    if (ball.y >= windowHeight)
+    {
+        ball.y -= ball.width;
+        ball.dirY *= -1.f;
+    }
 
-		if (ball.y < 0)
-		{
-			restartBall(ball, static_cast<float>(paddle.x), static_cast<float>(paddle.y));
-			decreaseLife(player);
-		}
-	}
+    if (ball.y < 0)
+    {
+        restartBall(ball, static_cast<float>(paddle.x), static_cast<float>(paddle.y));
+        decreaseLife(player);
+    }
+}
 
-	bool checkBallToPaddCollision(Ball& ball, Paddle paddle)
-	{
-		if (paddle.x + (paddle.width / 2) >= ball.x &&
-			paddle.x - (paddle.width / 2) <= ball.x + ball.width &&
-			paddle.y + (paddle.height / 2) >= ball.y &&
-			paddle.y - (paddle.width / 2) <= ball.y + ball.height)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+bool checkBallToPaddCollision(Ball& ball, Paddle paddle)
+{
+    return (paddle.x + (paddle.width / 2) >= ball.x &&
+        paddle.x - (paddle.width / 2) <= ball.x + ball.width &&
+        paddle.y + (paddle.height / 2) >= ball.y &&
+        paddle.y - (paddle.width / 2) <= ball.y + ball.height);
+}
 
-	bool checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX], int posX, int posY)
-	{
-		if (brick[posX][posY].x + (brick[posX][posY].width / 2) >= ball.x &&
-			brick[posX][posY].x - (brick[posX][posY].width / 2) <= ball.x + ball.width &&
-			brick[posX][posY].y + (brick[posX][posY].height / 2) >= ball.y &&
-			brick[posX][posY].y - (brick[posX][posY].width / 2) <= ball.y + ball.height)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+void checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX])
+{
+    for (int i = 0; i < quantY; i++)
+    {
+        for (int j = 0; j < quantX; j++)
+        {
+            if (brick[i][j].x + (brick[i][j].width / 2) >= ball.x &&
+                brick[i][j].x - (brick[i][j].width / 2) <= ball.x + ball.width &&
+                brick[i][j].y + (brick[i][j].height / 2) >= ball.y &&
+                brick[i][j].y - (brick[i][j].width / 2) <= ball.y + ball.height)
+            {
+                deactiveBrick(brick, i, j, activeBricksLeft);
+            }
 
-	void printLives(Player player, const int screenWidth, const int screenHeight, const int fontSize)
-	{
-		slSetForeColor(1, 1, 1, 1);
-		slSetFontSize(fontSize);
-		std::string lives = std::to_string(player.lives);
-		slText((screenWidth - slGetTextWidth(lives.c_str())), screenHeight - slGetTextHeight(lives.c_str()), lives.c_str());
-	}
+        }
+    }
+}
 
+void printLives(Player player, const int screenWidth, const int screenHeight, const int fontSize)
+{
+    slSetForeColor(1, 1, 1, 1);
+    slSetFontSize(fontSize);
+    std::string lives = std::to_string(player.lives);
+    slText((screenWidth - slGetTextWidth(lives.c_str())), screenHeight - slGetTextHeight(lives.c_str()), lives.c_str());
+}
 }
