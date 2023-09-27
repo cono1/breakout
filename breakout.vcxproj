@@ -184,6 +184,7 @@ copy /y "$(SolutionDir)lib\sigil-vc2015\dll" "$(OutDir)"</Command>
     <ClCompile Include="src\Menu\menu.cpp" />
     <ClCompile Include="src\Paddle\paddle.cpp" />
     <ClCompile Include="src\Player\player.cpp" />
+    <ClCompile Include="src\Printer\printer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Ball\ball.h" />
@@ -192,6 +193,7 @@ copy /y "$(SolutionDir)lib\sigil-vc2015\dll" "$(OutDir)"</Command>
     <ClInclude Include="src\Menu\menu.h" />
     <ClInclude Include="src\Paddle\paddle.h" />
     <ClInclude Include="src\Player\player.h" />
+    <ClInclude Include="src\Printer\printer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

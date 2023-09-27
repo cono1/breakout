@@ -27,6 +27,9 @@
     <Filter Include="Game">
       <UniqueIdentifier>{71cc2b3c-8fc0-4364-96d4-28e03cf467a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de recursos\Printer">
+      <UniqueIdentifier>{26631d80-03e2-4973-91e9-45de82faac2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -50,6 +53,9 @@
     <ClCompile Include="src\Game\game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\Printer\printer.cpp">
+      <Filter>Archivos de recursos\Printer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Ball\ball.h">
@@ -69,6 +75,9 @@
     </ClInclude>
     <ClInclude Include="src\Game\game.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Printer\printer.h">
+      <Filter>Archivos de recursos\Printer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

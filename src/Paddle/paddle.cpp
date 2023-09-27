@@ -12,7 +12,7 @@ void initPaddle(Paddle& paddle, float posX, float posY)
 	paddle.height = 30;
 	paddle.speed = 450;
 	paddle.texture = slLoadTexture("res/padd.jpg"); //https://www.vecteezy.com/vector-art/7544384-abstract-geometric-gradient-color-halftone-modern-shape-background
-	//https://www.vecteezy.com/members/graphoboy9158803 (Grapho Boy)
+	//https://www.vecteezy.com/members/graphoboy9158803
 }
 
 void updatePaddle(Paddle& paddle, float windowWidth)

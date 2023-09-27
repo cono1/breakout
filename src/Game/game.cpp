@@ -9,6 +9,7 @@
 #include "Ball/ball.h"
 #include "Bricks/bricks.h"
 #include "Player/player.h"
+#include "Printer/printer.h"
 
 extern int offset;
 
@@ -19,6 +20,7 @@ using namespace paddle;
 using namespace ball;
 using namespace bricks;
 using namespace player;
+using namespace printer;
 
 static const int width = 1024;
 static const int height = 768;
@@ -33,10 +35,6 @@ void drawGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Pl
 bool checkBallToPaddCollision(Ball& ball, Paddle paddle);
 void checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX]);
 void checkBallLimits(Ball& ball, const int windowWidth, const int windowHeight, Paddle paddle, Player& player);
-void printLives(Player player, const int screenWidth, const int screenHeight, const int fontSize);
-void printFinalMessage(bool won);
-void printRules(Player player);
-void printCredits();
 
 void gameLoop()
 {
@@ -46,14 +44,12 @@ void gameLoop()
     Player player;
 
     slWindow(width, height, "BREAKOUT", false);
-
     int font = slLoadFont("res/PermanentMarker-Regular.ttf");
     slSetFont(font, fontSize);
-    CurrentScreen currentScreen = MENU;
 
     initMenu(width);
     initializeGameObjects(paddle, ball, brick, player);
-
+    CurrentScreen currentScreen = MENU;
 
     while (!shouldExit)
     {
@@ -90,7 +86,7 @@ void updateGameLogic(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Pl
             clearBall(ball);
             clearPaddle(paddle);
             clearBricks(brick);
-            printFinalMessage(player.won);
+            printFinalMessage(player.won, width, height);
             if (slGetKey(SL_KEY_ENTER))
             {
                 initializeGameObjects(paddle, ball, brick, player);
@@ -126,10 +122,10 @@ void drawGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Pl
         shouldExit = true;
         break;
     case menu::CREDITS:
-        printCredits();
+        printCredits(width, height, fontSize);
         break;
     case menu::RULES:
-        printRules(player);
+        printRules(player, width, height, fontSize);
         break;
     case menu::PLAY:
         drawPaddle(paddle);
@@ -149,7 +145,6 @@ void drawGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Pl
     default:
         break;
     }
-
 
     if (currentScreen == CREDITS || currentScreen == RULES)
     {
@@ -216,49 +211,5 @@ void checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX])
 
         }
     }
-}
-
-void printLives(Player player, const int screenWidth, const int screenHeight, const int fontSize)
-{
-    slSetForeColor(1, 1, 1, 1);
-    slSetFontSize(fontSize);
-    std::string lives = std::to_string(player.lives);
-    slText((screenWidth - slGetTextWidth(lives.c_str())), screenHeight - slGetTextHeight(lives.c_str()), lives.c_str());
-}
-
-void printFinalMessage(bool won)
-{
-    slSetForeColor(1, 1, 1, 1);
-    std::string text2 = "Press enter to play again";
-    if (won)
-    {
-        std::string text1 = "You won";
-        slText(width / 2 - slGetTextWidth(text1.c_str()) / 2, height / 2 - slGetTextHeight(text1.c_str()) / 2, text1.c_str());
-        slText(width / 2 - slGetTextWidth(text2.c_str()) / 2, height / 2 - slGetTextHeight(text2.c_str()) - slGetTextHeight(text1.c_str()) / 2, text2.c_str());
-    }
-    else
-    {
-        std::string text1 = "You lost";
-        slText(width / 2 - slGetTextWidth(text1.c_str()) / 2, height / 2 - slGetTextHeight(text1.c_str()) / 2, text1.c_str());
-        slText(width / 2 - slGetTextWidth(text2.c_str()) / 2, height / 2 - slGetTextHeight(text2.c_str()) - slGetTextHeight(text1.c_str()) / 2, text2.c_str());
-    }
-}
-
-void printRules(Player player)
-{
-    slSetForeColor(1, 1, 1, 1);
-    std::string lives = std::to_string(player.maxLives);
-    std::string text1 = "\t\t\t\tMOVE: \nUse left and right arrow.\n\n\t\t\t\tOBJECTIVE: \n Break all the bricks\n on screen using the ball.\n\n\t\t\t\tYou have " + lives + " lives.\n If the ball falls you loose one\n If you have 0 lives you loose.";
-
-    slText(width / 10, height - fontSize, text1.c_str());
-}
-
-void printCredits()
-{
-    slSetForeColor(1, 1, 1, 1);
-    std::string text1 = "Game developed by Daniela Gonzalez";
-    std::string text2 = "Paddle texture by Grapho Boy";
-    slText(width / 2 - slGetTextWidth(text1.c_str()) / 2, height / 2 - slGetTextHeight(text1.c_str()) / 2, text1.c_str());
-    slText(width / 2 - slGetTextWidth(text2.c_str()) / 2, height / 2 - slGetTextHeight(text2.c_str()) - slGetTextHeight(text1.c_str()) / 2 - fontSize, text2.c_str());
 }
 }
