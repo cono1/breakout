@@ -45,4 +45,17 @@ void drawBrick(Brick brick[quantY][quantX])
 		}
 	}
 }
+
+void clearBricks(Brick brick[quantY][quantX])
+{
+	for (int i = 0; i < quantY; i++)
+	{
+		for (int j = 0; j < quantX; j++)
+		{
+			brick[i][j].width = 0.0f;
+			brick[i][j].height = 0.0f;
+			brick[i][j].isActive = false;
+		}
+	}
+}
 }

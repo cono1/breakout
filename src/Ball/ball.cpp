@@ -8,15 +8,15 @@
 int offset = 10;
 namespace ball
 {
-void initBall(Ball& ball, float paddleX, float paddleY)
+void initBall(Ball& ball, float x, float y)
 {
 	srand(time(NULL));
 	ball.dirX = rand() % 300 - 150;
 	ball.dirY = 100.f;
 	ball.width = 30.f;
 	ball.height = 30.f;
-	ball.x = paddleX;
-	ball.y = paddleY + ball.height + offset;
+	ball.x = x;
+	ball.y = y + ball.height + offset;
 	ball.speedX = 3.f;
 	ball.speedY= 3.f;
 	ball.texture = slLoadTexture("res/watermelon.jpg");
@@ -33,12 +33,18 @@ void drawBall(Ball ball)
 	slSprite(ball.texture, ball.x, ball.y, ball.width, ball.height);
 }
 
-void restartBall(Ball& ball, float paddleX, float paddleY)
+void restartBall(Ball& ball, float x, float y)
 {
 	srand(time(NULL));
 	ball.dirX = rand() % 300 - 150;
 	ball.dirY = 100.f;
-	ball.x = paddleX;
-	ball.y = paddleY + ball.height + offset;
+	ball.x = x;
+	ball.y = y + ball.height + offset;
+}
+
+void clearBall(Ball& ball)
+{
+	ball.height = 0;
+	ball.width = 0;
 }
 }

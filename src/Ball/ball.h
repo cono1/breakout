@@ -15,8 +15,9 @@ struct Ball
 	int texture;
 };
 
-void initBall(Ball& ball, float paddleX, float paddleY);
+void initBall(Ball& ball, float x, float y);
 void updateBall(Ball& ball);
 void drawBall(Ball ball);
-void restartBall(Ball& ball, float paddleX, float paddleY);
+void restartBall(Ball& ball, float x, float y);
+void clearBall(Ball& ball);
 }

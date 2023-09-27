@@ -34,7 +34,7 @@ bool checkBallToPaddCollision(Ball& ball, Paddle paddle);
 void checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX]);
 void checkBallLimits(Ball& ball, const int windowWidth, const int windowHeight, Paddle paddle, Player& player);
 void printLives(Player player, const int screenWidth, const int screenHeight, const int fontSize);
-bool playerWon(Player player);
+void printFinalMessage(bool won);
 
 void gameLoop()
 {
@@ -70,25 +70,41 @@ void initializeGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quant
     initBall(ball, paddle.x, paddle.y);
     initBrick(brick);
     initPlayer(player);
+    activeBricksLeft = quantX * quantY;
 }
 
 void updateGameLogic(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Player& player, CurrentScreen& currentScreen)
 {
-    updatePaddle(paddle, width);
-    updateBall(ball);
-    checkBallLimits(ball, width, height, paddle, player);
-    checkBallToBrickCollision(ball, brick);
-    checkPayerStatus(player, activeBricksLeft);
-
-    if (isPausePressed() && slGetMouseButton(SL_MOUSE_BUTTON_LEFT) || slGetKey(SL_KEY_ESCAPE) && currentScreen != MENU)
+    if (currentScreen == PLAY)
     {
-        currentScreen = PAUSE;
-    }
+        updatePaddle(paddle, width);
+        updateBall(ball);
+        checkBallLimits(ball, width, height, paddle, player);
+        checkBallToBrickCollision(ball, brick);
+        updatePlayer(player, activeBricksLeft);
 
-    if (slShouldClose() || slGetKey(SL_KEY_ESCAPE) && currentScreen == MENU)
-    {
-        shouldExit = true;
+        if (player.won && currentScreen != PAUSE || player.lives <= 0)
+        {
+            clearBall(ball);
+            clearPaddle(paddle);
+            clearBricks(brick);
+            printFinalMessage(player.won);
+            if (slGetKey(SL_KEY_ENTER))
+            {
+                initializeGameObjects(paddle, ball, brick, player);
+            }
+        }
+
+        if (isPausePressed() && slGetMouseButton(SL_MOUSE_BUTTON_LEFT) || slGetKey(SL_KEY_ESCAPE))
+        {
+            currentScreen = PAUSE;
+        }
     }
+        if (slShouldClose() || slGetKey(SL_KEY_ESCAPE) && currentScreen == MENU)
+        {
+            shouldExit = true;
+        }
+    
 }
 
 void drawGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Player& player, CurrentScreen& currentScreen)
@@ -190,8 +206,21 @@ void printLives(Player player, const int screenWidth, const int screenHeight, co
     slText((screenWidth - slGetTextWidth(lives.c_str())), screenHeight - slGetTextHeight(lives.c_str()), lives.c_str());
 }
 
-bool playerWon(Player player)
+void printFinalMessage(bool won)
 {
-    return activeBricksLeft;
+    slSetForeColor(1, 1, 1, 1);
+    std::string text2 = "Press enter to play again";
+    if (won)
+    {
+        std::string text1 = "You won";
+        slText(width / 2 - slGetTextWidth(text1.c_str()) / 2, height / 2 - slGetTextHeight(text1.c_str()) / 2, text1.c_str());
+        slText(width / 2 - slGetTextWidth(text2.c_str()) / 2, height / 2 - slGetTextHeight(text2.c_str()) - slGetTextHeight(text1.c_str()) / 2, text2.c_str());
+    }
+    else
+    {
+        std::string text1 = "You lost";
+        slText(width / 2 - slGetTextWidth(text1.c_str()) / 2, height / 2 - slGetTextHeight(text1.c_str()) / 2, text1.c_str());
+        slText(width / 2 - slGetTextWidth(text2.c_str()) / 2, height / 2 - slGetTextHeight(text2.c_str()) - slGetTextHeight(text1.c_str()) / 2, text2.c_str());
+    }
 }
 }

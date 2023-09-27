@@ -42,4 +42,9 @@ void movePaddleLeft(Paddle& paddle)
 	paddle.x -= paddle.speed * slGetDeltaTime();
 }
 
+void clearPaddle(Paddle& paddle)
+{
+	paddle.width = 0;
+	paddle.height = 0;
+}
 }

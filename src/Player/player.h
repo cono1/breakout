@@ -10,5 +10,5 @@ struct Player
 
 void initPlayer(Player& player);
 void decreaseLife(Player& player);
-void checkPayerStatus(Player player, int activeBircksLeft);
+void updatePlayer(Player& player, int activeBircksLeft);
 }

@@ -17,4 +17,5 @@ void updatePaddle(Paddle& paddle, float windowWidth);
 void drawPaddle(Paddle paddle);
 void movePaddleRight(Paddle& paddle);
 void movePaddleLeft(Paddle& paddle);
+void clearPaddle(Paddle& paddle);
 }

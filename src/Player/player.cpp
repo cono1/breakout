@@ -4,7 +4,7 @@ namespace player
 {
 void initPlayer(Player& player)
 {
-	player.lives = 4;
+	player.lives = 3;
 	player.won = false;
 }
 
@@ -14,7 +14,7 @@ void decreaseLife(Player& player)
 	player.lives -= 1;
 }
 
-void checkPayerStatus(Player player, int activeBircksLeft)
+void updatePlayer(Player& player, int activeBircksLeft)
 {
 	if (activeBircksLeft <= 0)
 	{
