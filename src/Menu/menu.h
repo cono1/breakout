@@ -21,6 +21,6 @@ struct MenuRect
 void initMenu(const int screenWidth);
 void updateMenu(CurrentScreen& currentScreen);
 void printMenu(const int screenWidth, const int screenHeight, const int fontSize, std::string title);
-void printPauseButton();
+void printBackButton(bool pause);
 bool isPausePressed();
 }

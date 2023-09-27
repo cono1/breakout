@@ -35,6 +35,8 @@ void checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX]);
 void checkBallLimits(Ball& ball, const int windowWidth, const int windowHeight, Paddle paddle, Player& player);
 void printLives(Player player, const int screenWidth, const int screenHeight, const int fontSize);
 void printFinalMessage(bool won);
+void printRules(Player player);
+void printCredits();
 
 void gameLoop()
 {
@@ -104,6 +106,11 @@ void updateGameLogic(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Pl
         {
             shouldExit = true;
         }
+
+        if (isPausePressed() && slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && currentScreen != PAUSE)
+        {
+            currentScreen = MENU;
+        }
     
 }
 
@@ -111,17 +118,24 @@ void drawGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Pl
 {
     slSetBackColor(0.5, 0.75, 1.0);
     slSetForeColor(1, 1, 1, 1);
+    slSetFontSize(fontSize);
 
     switch (currentScreen)
     {
     case menu::EXIT:
         shouldExit = true;
         break;
+    case menu::CREDITS:
+        printCredits();
+        break;
+    case menu::RULES:
+        printRules(player);
+        break;
     case menu::PLAY:
         drawPaddle(paddle);
         drawBrick(brick);
         drawBall(ball);
-        printPauseButton();
+        printBackButton(true);
         printLives(player, width, height, fontSize);
         break;
     case menu::MENU:
@@ -134,6 +148,12 @@ void drawGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Pl
         break;
     default:
         break;
+    }
+
+
+    if (currentScreen == CREDITS || currentScreen == RULES)
+    {
+        printBackButton(false);
     }
 }
 
@@ -222,5 +242,21 @@ void printFinalMessage(bool won)
         slText(width / 2 - slGetTextWidth(text1.c_str()) / 2, height / 2 - slGetTextHeight(text1.c_str()) / 2, text1.c_str());
         slText(width / 2 - slGetTextWidth(text2.c_str()) / 2, height / 2 - slGetTextHeight(text2.c_str()) - slGetTextHeight(text1.c_str()) / 2, text2.c_str());
     }
+}
+
+void printRules(Player player)
+{
+    slSetForeColor(1, 1, 1, 1);
+    std::string lives = std::to_string(player.maxLives);
+    std::string text1 = "\t\t\t\tMOVE: \nUse left and right arrow.\n\n\t\t\t\tOBJECTIVE: \n Break all the bricks\n on screen using the ball.\n\n\t\t\t\tYou have " + lives + " lives.\n If the ball falls you loose one\n If you have 0 lives you loose.";
+
+    slText(width / 10, height - fontSize, text1.c_str());
+}
+
+void printCredits()
+{
+    slSetForeColor(1, 1, 1, 1);
+    std::string text1 = "Game developed by Daniela Gonzalez";
+    slText(width / 2 - slGetTextWidth(text1.c_str()) / 2, height / 2 - slGetTextHeight(text1.c_str()) / 2, text1.c_str());
 }
 }

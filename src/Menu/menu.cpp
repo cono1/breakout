@@ -40,10 +40,7 @@ void initMenu(const int screenWidth)
 void updateMenu(CurrentScreen& currentScreen)
 {
 	if (checkMenuInput(PLAY))
-	{
-		std::cout << "play";
 		currentScreen = PLAY;
-	}
 
 	if (checkMenuInput(PAUSE))
 		currentScreen = PAUSE;
@@ -133,13 +130,16 @@ bool checkCollision(MenuRect& menuRect, float initWidth, float maxWidth)
 }
 
 
-void printPauseButton()
+void printBackButton(bool pause)
 {
 	slSetForeColor(1, 1, 1, 1);
 	slSetFontSize(25);
 	slRectangleFill(pauseRect.x, pauseRect.y, pauseRect.width, pauseRect.height);
 	slSetForeColor(1, 0.5, 1, 1);
-	slText(pauseRect.x - 10, pauseRect.y - 10, "||");
+	if(pause)
+		slText(pauseRect.x - 10, pauseRect.y - 10, "||");
+	else
+		slText(pauseRect.x - 15, pauseRect.y - 10, "<-");
 }
 
 bool isPausePressed()

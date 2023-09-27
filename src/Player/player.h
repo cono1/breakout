@@ -5,6 +5,7 @@ namespace player
 struct Player
 {
 	int lives;
+	int maxLives;
 	bool won;
 };
 

@@ -5,6 +5,7 @@ namespace player
 void initPlayer(Player& player)
 {
 	player.lives = 3;
+	player.maxLives = 3;
 	player.won = false;
 }
 
