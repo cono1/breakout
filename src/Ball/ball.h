@@ -10,7 +10,8 @@ struct Ball
 	float dirY;
 	float width;
 	float height;
-	float speed;
+	float speedX;
+	float speedY;
 	int texture;
 };
 

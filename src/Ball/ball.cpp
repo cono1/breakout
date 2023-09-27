@@ -17,14 +17,15 @@ void initBall(Ball& ball, float paddleX, float paddleY)
 	ball.height = 30.f;
 	ball.x = paddleX;
 	ball.y = paddleY + ball.height + offset;
-	ball.speed = 3.f;
+	ball.speedX = 3.f;
+	ball.speedY= 3.f;
 	ball.texture = slLoadTexture("res/watermelon.jpg");
 }
 
 void updateBall(Ball& ball)
 {
-	ball.x += ball.dirX * ball.speed * slGetDeltaTime();
-	ball.y += ball.dirY * ball.speed * slGetDeltaTime();
+	ball.x += ball.dirX * ball.speedX * slGetDeltaTime();
+	ball.y += ball.dirY * ball.speedY * slGetDeltaTime();
 }
 
 void drawBall(Ball ball)
