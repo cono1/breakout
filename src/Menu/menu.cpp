@@ -24,7 +24,7 @@ void initMenu(const int screenWidth)
 		menuRect[i].width = 360;
 		menuRect[i].height = 80;
 		menuRect[i].x = (screenWidth - menuRect[i].x) / 2;
-		menuRect[i].y = firstRectYPosition + (menuRect[i].height + spaceBetweenRects) * i;
+		menuRect[i].y = static_cast<int>(firstRectYPosition + (menuRect[i].height + spaceBetweenRects) * i);
 		menuRect[i].initWidth = menuRect[i].width;
 		menuRect[i].maxWidth = menuRect[i].width + 20;
 	}
@@ -94,8 +94,8 @@ void printMenu(const int screenWidth, const int screenHeight, const int fontSize
 
 void writeOnMenuSquare(std::string word, int pos, const int screenWidth, const int fontSize)
 {
-	int xOffsetText = static_cast<int>(menuRect[pos].x) - slGetTextWidth(word.c_str()) / 2;
-	int yOffsetText = (menuRect[pos].height - fontSize) / 2;
+	int xOffsetText = static_cast<int>(menuRect[pos].x) - static_cast<int>(slGetTextWidth(word.c_str()) / 2);
+	int yOffsetText = static_cast<int>((menuRect[pos].height - fontSize) / 2);
 
 	slText(xOffsetText, static_cast<int>(menuRect[pos].y - yOffsetText), word.c_str());;
 }
@@ -136,7 +136,7 @@ void printBackButton(bool pause)
 	slSetFontSize(25);
 	slRectangleFill(pauseRect.x, pauseRect.y, pauseRect.width, pauseRect.height);
 	slSetForeColor(1, 0.5, 1, 1);
-	if(pause)
+	if (pause)
 		slText(pauseRect.x - 10, pauseRect.y - 10, "||");
 	else
 		slText(pauseRect.x - 15, pauseRect.y - 10, "<-");

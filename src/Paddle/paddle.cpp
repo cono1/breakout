@@ -6,12 +6,13 @@ namespace paddle
 {
 void initPaddle(Paddle& paddle, float posX, float posY)
 {
-	paddle.x = posX * 0.5;
-	paddle.y = posY * 0.1;
-	paddle.width = 332;
-	paddle.height = 70;
+	paddle.x = static_cast<float>(posX * 0.5);
+	paddle.y = static_cast<float>(posY * 0.1);
+	paddle.width = 220;
+	paddle.height = 30;
 	paddle.speed = 450;
-	paddle.texture = slLoadTexture("res/wood.jpg"); //https://www.vecteezy.com/vector-art/3448235-light-brown-cartoon-wood-texture-pattern-wallpaper-background
+	paddle.texture = slLoadTexture("res/padd.jpg"); //https://www.vecteezy.com/vector-art/7544384-abstract-geometric-gradient-color-halftone-modern-shape-background
+	//https://www.vecteezy.com/members/graphoboy9158803 (Grapho Boy)
 }
 
 void updatePaddle(Paddle& paddle, float windowWidth)
@@ -34,12 +35,12 @@ void drawPaddle(Paddle paddle)
 
 void movePaddleRight(Paddle& paddle)
 {
-	paddle.x += paddle.speed * slGetDeltaTime();
+	paddle.x += static_cast<float>(paddle.speed * slGetDeltaTime());
 }
 
 void movePaddleLeft(Paddle& paddle)
 {
-	paddle.x -= paddle.speed * slGetDeltaTime();
+	paddle.x -= static_cast<float>(paddle.speed * slGetDeltaTime());
 }
 
 void clearPaddle(Paddle& paddle)

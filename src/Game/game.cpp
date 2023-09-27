@@ -173,7 +173,7 @@ void checkBallLimits(Ball& ball, const int windowWidth, const int windowHeight, 
         if (ball.x < 0)
             ball.x += ball.width;
 
-        if (ball.x > ball.x > windowWidth)
+        if (ball.x > windowWidth)
             ball.x -= ball.width;
 
         ball.dirX *= -1.f;
@@ -257,6 +257,8 @@ void printCredits()
 {
     slSetForeColor(1, 1, 1, 1);
     std::string text1 = "Game developed by Daniela Gonzalez";
+    std::string text2 = "Paddle texture by Grapho Boy";
     slText(width / 2 - slGetTextWidth(text1.c_str()) / 2, height / 2 - slGetTextHeight(text1.c_str()) / 2, text1.c_str());
+    slText(width / 2 - slGetTextWidth(text2.c_str()) / 2, height / 2 - slGetTextHeight(text2.c_str()) - slGetTextHeight(text1.c_str()) / 2 - fontSize, text2.c_str());
 }
 }
