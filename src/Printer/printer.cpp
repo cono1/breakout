@@ -7,10 +7,11 @@ namespace printer
 {
 void printLives(Player player, const int screenWidth, const int screenHeight, const int fontSize)
 {
+    std::string lives = std::to_string(player.lives);
+    std::string text = "Lives: " + lives;
     slSetForeColor(1, 1, 1, 1);
     slSetFontSize(fontSize);
-    std::string lives = std::to_string(player.lives);
-    slText((screenWidth - slGetTextWidth(lives.c_str())), screenHeight - slGetTextHeight(lives.c_str()), lives.c_str());
+    slText((screenWidth - slGetTextWidth(text.c_str())), screenHeight - slGetTextHeight(text.c_str()), text.c_str());
 }
 
 void printFinalMessage(bool won, const int width, const int height)
