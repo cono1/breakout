@@ -33,7 +33,7 @@ void initializeGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quant
 void updateGameLogic(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Player& player, CurrentScreen& currentScreen);
 void drawGameObjects(Paddle& paddle, Ball& ball, Brick brick[quantY][quantX], Player& player, CurrentScreen& currentScreen);
 bool checkBallToPaddCollision(Ball& ball, Paddle paddle);
-void checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX]);
+void checkBallToBrickCollision(Ball& ball, Brick brick[quantY][quantX]);
 void checkBallLimits(Ball& ball, const int windowWidth, const int windowHeight, Paddle paddle, Player& player);
 
 void gameLoop()
@@ -195,7 +195,7 @@ bool checkBallToPaddCollision(Ball& ball, Paddle paddle)
         paddle.y - (paddle.width / 2) <= ball.y + ball.height);
 }
 
-void checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX])
+void checkBallToBrickCollision(Ball& ball, Brick brick[quantY][quantX])
 {
     for (int i = 0; i < quantY; i++)
     {
@@ -206,6 +206,11 @@ void checkBallToBrickCollision(Ball ball, Brick brick[quantY][quantX])
                 brick[i][j].y + (brick[i][j].height / 2) >= ball.y &&
                 brick[i][j].y - (brick[i][j].width / 2) <= ball.y + ball.height)
             {
+                if (brick[i][j].isActive)
+                {
+                    ball.dirX *= -1;
+                    ball.dirY *= -1;
+                }
                 deactiveBrick(brick, i, j, activeBricksLeft);
             }
 
